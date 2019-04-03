@@ -13,9 +13,14 @@ struct InfoFilo {
 };
 
 void* filosofo(void *arg);
+void imprimirFilo(int i, const char* mensaje);
+sem_t *mutex;
 
 int
 main(void) {
+
+  mutex = new sem_t;
+  sem_init(mutex, 0, 1);
 
   pthread_t hilo_filosofos[Mesa::nFilosofos];
 
@@ -37,17 +42,24 @@ filosofo(void *arg) {
 
   for (;;) {
     // pensando
-    cout << "Filosofo: " << info->pos << " pensando" << endl;
+    imprimirFilo(info->pos, " pensando");
     sleep(rand() % 5 + 1);
     info->mesa.tomar_tenedor(info->pos);
     info->mesa.tomar_tenedor((info->pos + 1) % Mesa::nFilosofos);
     // comer
-    cout << "Filosofo: " << info->pos << " comiendo" << endl;
+    imprimirFilo(info->pos, " comiendo");
     sleep(rand() % 3 + 1);
     info->mesa.dejar_tenedor(info->pos);
     info->mesa.dejar_tenedor((info->pos + 1) % Mesa::nFilosofos);
   }
 
   return NULL;
+}
+
+void imprimirFilo(int i, const char* mensaje) {
+  sem_wait(mutex);
+  cout << "Filosofo: " << i
+       << mensaje << endl;
+  sem_post(mutex);
 }
 
