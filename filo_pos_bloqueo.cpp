@@ -2,15 +2,10 @@
 #include <pthread.h>
 #include <cstdlib>
 #include <unistd.h>
+#include "infofilo.h"
 #include "mesa.h"
 
 using namespace std;
-
-struct InfoFilo {
-  InfoFilo(Mesa& mesa, int pos) : mesa(mesa), pos(pos) { }
-  Mesa& mesa;
-  int pos;
-};
 
 void* filosofo(void *arg);
 void imprimirFilo(int i, const char* mensaje);
@@ -27,18 +22,17 @@ main(void) {
   Mesa *mesa = new Mesa();
 
   for (int i = 0; i < Mesa::nFilosofos; ++i) {
-    InfoFilo *info = new InfoFilo(*mesa,i);
-    pthread_create(&hilo_filosofos[i], NULL, filosofo, (void *) info); 
+    PInfoFilo info = new InfoFilo(*mesa,i);
+    pthread_create(&hilo_filosofos[i], NULL, filosofo, (void *) info);
   }
 
-  
   pthread_join(hilo_filosofos[0], NULL);
   return EXIT_SUCCESS;
 }
 
 void*
 filosofo(void *arg) {
-  InfoFilo *info = (InfoFilo *) arg;
+  PInfoFilo info = (PInfoFilo) arg;
 
   for (;;) {
     // pensando
@@ -62,4 +56,3 @@ void imprimirFilo(int i, const char* mensaje) {
        << mensaje << endl;
   sem_post(mutex);
 }
-
