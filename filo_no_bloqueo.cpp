@@ -2,8 +2,8 @@
 #include <pthread.h>
 #include <cstdlib>
 #include <unistd.h>
-#include "mesa.h"
 #include "infofilo.h"
+#include "mesa.h"
 #include "funciones_aux.h"
 
 using namespace std;
@@ -18,7 +18,7 @@ main(void) {
   Mesa *mesa = new Mesa();
 
   for (int i = 0; i < Mesa::nFilosofos; ++i) {
-    InfoFilo *info = new InfoFilo(*mesa,i);
+    PInfoFilo info = new InfoFilo(*mesa,i);
     pthread_create(&hilo_filosofos[i], NULL, filosofo, (void *) info);
   }
 
@@ -28,7 +28,7 @@ main(void) {
 
 void*
 filosofo(void *arg) {
-  InfoFilo *info = (InfoFilo *) arg;
+  PInfoFilo info = (PInfoFilo) arg;
 
   for (;;) {
     // pensando
@@ -45,3 +45,4 @@ filosofo(void *arg) {
 
   return NULL;
 }
+

@@ -8,15 +8,10 @@
 
 using namespace std;
 
-void* filosofo(void *arg);
-void imprimirFilo(int i, const char* mensaje);
-sem_t *mutex;
+static void* filosofo(void *arg);
 
 int
 main(void) {
-
-  mutex = new sem_t;
-  sem_init(mutex, 0, 1);
 
   pthread_t hilo_filosofos[Mesa::nFilosofos];
 
