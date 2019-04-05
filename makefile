@@ -1,3 +1,4 @@
+.PHONY: all
 all: filo_pos_bloqueo filo_no_bloqueo
 
 CXXFLAGS=-Wall -std=c++11 -g
@@ -20,4 +21,4 @@ mesa.o: mesa.cpp mesa.h
 
 clean:
 	rm -f *.o *.*~ *~
-	rm -f filo_pos_bloqueo
+	rm -f filo_pos_bloqueo filo_no_bloqueo
