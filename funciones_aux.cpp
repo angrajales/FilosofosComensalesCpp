@@ -13,8 +13,9 @@ static void crearMutex() {
   }
 }
 
-void imprimirFilo(int i, const char* mensaje) {
-  crearMutex();
+void
+imprimirFilo(int i, const char* mensaje) {
+  if (imprimirFiloMutex == nullptr) crearMutex();
 
   sem_wait(imprimirFiloMutex);
   cout << "Filosofo: " << i
