@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include "infofilo.h"
 #include "mesa.h"
+#include "funciones_aux.h"
 
 using namespace std;
 
@@ -50,9 +51,3 @@ filosofo(void *arg) {
   return NULL;
 }
 
-void imprimirFilo(int i, const char* mensaje) {
-  sem_wait(mutex);
-  cout << "Filosofo: " << i
-       << mensaje << endl;
-  sem_post(mutex);
-}

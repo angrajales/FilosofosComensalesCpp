@@ -4,18 +4,14 @@
 #include <unistd.h>
 #include "mesa.h"
 #include "infofilo.h"
+#include "funciones_aux.h"
 
 using namespace std;
 
-void* filosofo(void *arg);
-void imprimirFilo(int i, const char* mensaje);
-sem_t *mutex;
+static void* filosofo(void *arg);
 
 int
 main(void) {
-
-  mutex = new sem_t;
-  sem_init(mutex, 0, 1);
 
   pthread_t hilo_filosofos[Mesa::nFilosofos];
 
@@ -48,11 +44,4 @@ filosofo(void *arg) {
   }
 
   return NULL;
-}
-
-void imprimirFilo(int i, const char* mensaje) {
-  sem_wait(mutex);
-  cout << "Filosofo: " << i
-       << mensaje << endl;
-  sem_post(mutex);
 }
